@@ -1,7 +1,7 @@
 #pragma once
 
 typedef enum LangObjectKind {
-  INTEGER
+  INTEGER,
 } lang_object_kind_t;
 
 typedef union LangObjectData {
@@ -12,3 +12,5 @@ typedef struct LangObject {
   lang_object_kind_t kind;
   lang_object_data_t data;
 } lang_object_t;
+
+lang_object_t *new_lang_integer(int value);
