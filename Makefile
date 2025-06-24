@@ -17,10 +17,10 @@ endif
 $(BUILD_DIR):
 	mkdir $@
 
-$(TARGET): $(SRC_DIR)main.c | $(BUILD_DIR)
+$(TARGET): $(SRC_DIR)main.c $(SRC_DIR)langobject.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 	
-test: $(TEST_DIR)main_test.c $(TEST_DIR)munit/munit.c | $(BUILD_DIR)
+test: $(TEST_DIR)main_test.c $(TEST_DIR)munit/munit.c $(SRC_DIR)langobject.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)main_test $^
 	
 clean:
