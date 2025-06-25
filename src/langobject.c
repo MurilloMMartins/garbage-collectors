@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second) {
+  return NULL;
+}
+
 lang_object_t *new_lang_string(char *value) {
   lang_object_t *obj = (lang_object_t *)malloc(sizeof(lang_object_t));
   if (obj == NULL) {

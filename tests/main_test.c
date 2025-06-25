@@ -127,12 +127,83 @@ static const MunitSuite string_suite = {
 };
 
 /*
+  PAIR OBJECT TEST
+*/
+static MunitResult pair_returns_null(const MunitParameter params[],
+                                     void *data) {
+  lang_object_t *pair = new_lang_pair(NULL, NULL);
+
+  munit_assert_null(pair);
+
+  return MUNIT_OK;
+}
+
+static MunitResult pair_multiple_objects(const MunitParameter params[],
+                                         void *data) {
+  lang_object_t *first = new_lang_integer(1);
+  lang_object_t *second = new_lang_integer(2);
+  lang_object_t *pair = new_lang_pair(first, second);
+
+  munit_assert_ptr_not_null(pair);
+
+  munit_assert_ptr(first, ==, pair->data.v_pair.first);
+  munit_assert_ptr(second, ==, pair->data.v_pair.second);
+
+  munit_assert_int(pair->data.v_pair.first->data.v_int, ==, 1);
+  munit_assert_int(pair->data.v_pair.second->data.v_int, ==, 2);
+
+  free(first);
+  free(second);
+  free(pair);
+
+  return MUNIT_OK;
+}
+
+static MunitResult pair_same_object(const MunitParameter params[], void *data) {
+  lang_object_t *obj = new_lang_integer(1);
+  lang_object_t *pair = new_lang_pair(obj, obj);
+
+  munit_assert_ptr_not_null(pair);
+
+  munit_assert_ptr(obj, ==, pair->data.v_pair.first);
+  munit_assert_ptr(obj, ==, pair->data.v_pair.second);
+
+  munit_assert_int(pair->data.v_pair.first->data.v_int, ==, 1);
+  munit_assert_int(pair->data.v_pair.second->data.v_int, ==, 1);
+
+  obj->data.v_int = 2;
+
+  munit_assert_int(pair->data.v_pair.first->data.v_int, ==, 2);
+  munit_assert_int(pair->data.v_pair.second->data.v_int, ==, 2);
+
+  free(obj);
+  free(pair);
+
+  return MUNIT_OK;
+}
+
+static MunitTest pair_tests[] = {
+    {"/returns_null", pair_returns_null, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {"/multiple_object", pair_multiple_objects, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
+    {"/same_object", pair_same_object, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+};
+
+static const MunitSuite pair_suite = {
+    "pair_object", pair_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE,
+};
+
+/*
   CREATING TEST SUITE
 */
 static const MunitSuite test_suite = {
     "",
     NULL,
-    (MunitSuite[]){integer_suite, float_suite, string_suite, {NULL}},
+    (MunitSuite[]){
+        integer_suite, float_suite, string_suite, pair_suite, {NULL}},
     1,
     MUNIT_SUITE_OPTION_NONE,
 };
