@@ -197,13 +197,54 @@ static const MunitSuite pair_suite = {
 };
 
 /*
+  ARRAY OBJECT TESTS
+*/
+static MunitResult array_create_empty_array(const MunitParameter params[],
+                                            void *data) {
+  lang_object_t *obj = new_lang_array(2);
+
+  munit_assert_int(obj->kind, ==, ARRAY);
+  munit_assert_int(obj->data.v_array.size, ==, 2);
+
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult array_used_calloc(const MunitParameter params[],
+                                     void *data) {
+  lang_object_t *obj = new_lang_array(2);
+
+  munit_assert_ptr_null(obj->data.v_array.elements[0]);
+  munit_assert_ptr_null(obj->data.v_array.elements[1]);
+
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitTest array_tests[] = {
+    {"/empty", array_create_empty_array, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {"/used_calloc", array_used_calloc, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+};
+
+static const MunitSuite array_suite = {
+    "array_object", array_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE,
+};
+
+/*
   CREATING TEST SUITE
 */
 static const MunitSuite test_suite = {
     "",
     NULL,
     (MunitSuite[]){
-        integer_suite, float_suite, string_suite, pair_suite, {NULL}},
+        integer_suite, float_suite, string_suite, pair_suite, array_suite, {NULL}},
     1,
     MUNIT_SUITE_OPTION_NONE,
 };

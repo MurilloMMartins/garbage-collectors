@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+lang_object_t *new_lang_array(size_t size) {
+  return NULL;
+}
+
 lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second) {
   if (first == NULL || second == NULL) {
     return NULL;
