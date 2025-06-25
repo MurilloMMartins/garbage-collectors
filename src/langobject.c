@@ -16,10 +16,9 @@ lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second) {
   if (obj == NULL) {
     return NULL;
   }
-  
+
   obj->kind = PAIR;
-  obj->data.v_pair.first = first;
-  obj->data.v_pair.second = second;
+  obj->data.v_pair = (lang_pair_t){.first = first, .second = second};
 
   return obj;
 }
