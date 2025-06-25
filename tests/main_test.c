@@ -243,8 +243,12 @@ static const MunitSuite array_suite = {
 static const MunitSuite test_suite = {
     "",
     NULL,
-    (MunitSuite[]){
-        integer_suite, float_suite, string_suite, pair_suite, array_suite, {NULL}},
+    (MunitSuite[]){integer_suite,
+                   float_suite,
+                   string_suite,
+                   pair_suite,
+                   array_suite,
+                   {NULL}},
     1,
     MUNIT_SUITE_OPTION_NONE,
 };

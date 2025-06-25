@@ -4,7 +4,22 @@
 #include <string.h>
 
 lang_object_t *new_lang_array(size_t size) {
-  return NULL;
+  lang_object_t *obj = (lang_object_t *)malloc(sizeof(lang_object_t));
+  if (obj == NULL) {
+    return NULL;
+  }
+
+  obj->kind = ARRAY;
+
+  lang_object_t **elements =
+      (lang_object_t **)calloc(size, sizeof(lang_object_t *));
+  if (elements == NULL) {
+    return NULL;
+  }
+
+  obj->data.v_array = (lang_array_t){.size = size, .elements = elements};
+
+  return obj;
 }
 
 lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second) {
