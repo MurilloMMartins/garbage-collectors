@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stddef.h>
 
 typedef struct LangObject lang_object_t;
@@ -17,12 +18,10 @@ typedef struct LangPair {
   lang_object_t *second;
 } lang_pair_t;
 
-typedef struct LangArray
-{
+typedef struct LangArray {
   size_t size;
   lang_object_t **elements;
 } lang_array_t;
-
 
 typedef union LangObjectData {
   int v_int;
@@ -42,3 +41,5 @@ lang_object_t *new_lang_float(float value);
 lang_object_t *new_lang_string(char *value);
 lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second);
 lang_object_t *new_lang_array(size_t size);
+bool lang_array_set(lang_object_t *array, size_t index, lang_object_t *value);
+lang_object_t *lang_array_get(lang_object_t *array, size_t index);

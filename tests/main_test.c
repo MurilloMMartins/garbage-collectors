@@ -225,11 +225,80 @@ static MunitResult array_used_calloc(const MunitParameter params[],
   return MUNIT_OK;
 }
 
+static MunitResult array_test_get_and_set(const MunitParameter params[],
+                                          void *data) {
+  lang_object_t *obj = new_lang_array(2);
+
+  lang_object_t *first = new_lang_string("First");
+  lang_object_t *second = new_lang_integer(3);
+
+  munit_assert(lang_array_set(obj, 0, first));
+  munit_assert(lang_array_set(obj, 1, second));
+
+  lang_object_t *retrieved_first = lang_array_get(obj, 0);
+  munit_assert_not_null(retrieved_first);
+  munit_assert_int(retrieved_first->kind, ==, STRING);
+  munit_assert_ptr(first, ==, retrieved_first);
+
+  lang_object_t *retrieved_second = lang_array_get(obj, 1);
+  munit_assert_not_null(retrieved_second);
+  munit_assert_int(retrieved_second->kind, ==, INTEGER);
+  munit_assert_ptr(second, ==, retrieved_second);
+
+  free(first->data.v_string);
+  free(first);
+  free(second);
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult array_test_set_outside_bounds(const MunitParameter params[],
+                                                 void *data) {
+  lang_object_t *obj = new_lang_array(2);
+
+  lang_object_t *outside = new_lang_string("First");
+
+  munit_assert(lang_array_set(obj, 0, outside));
+
+  munit_assert_false(lang_array_set(obj, 100, outside));
+
+  free(outside->data.v_string);
+  free(outside);
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitResult array_test_get_outside_bounds(const MunitParameter params[],
+                                                 void *data) {
+  lang_object_t *obj = new_lang_array(1);
+  lang_object_t *first = new_lang_string("First");
+  munit_assert(lang_array_set(obj, 0, first));
+
+  munit_assert_null(lang_array_get(obj, 1));
+
+  free(first->data.v_string);
+  free(first);
+  free(obj->data.v_array.elements);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
 static MunitTest array_tests[] = {
     {"/empty", array_create_empty_array, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
     {"/used_calloc", array_used_calloc, NULL, NULL, MUNIT_TEST_OPTION_NONE,
      NULL},
+    {"/get_and_set", array_test_get_and_set, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {"/set_outside_bounds", array_test_set_outside_bounds, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
+    {"/get_outside_bounds", array_test_get_outside_bounds, NULL, NULL,
+     MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
 };
 
