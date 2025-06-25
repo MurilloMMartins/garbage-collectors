@@ -20,8 +20,8 @@ $(BUILD_DIR):
 $(TARGET): $(SRC_DIR)main.c $(SRC_DIR)langobject.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 	
-test: $(TEST_DIR)main_test.c $(TEST_DIR)munit/munit.c $(SRC_DIR)langobject.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)main_test $^
+object_test: $(TEST_DIR)object_test.c $(TEST_DIR)munit/munit.c $(SRC_DIR)langobject.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $^
 	
 clean:
 ifeq ($(strip $(BUILD_DIR)),)
@@ -35,5 +35,5 @@ all: $(TARGET)
 run: $(TARGET)
 	./$<
 	
-run-test: test
-	./$(BUILD_DIR)main_test
+run-test: object_test
+	./$(BUILD_DIR)object_test
