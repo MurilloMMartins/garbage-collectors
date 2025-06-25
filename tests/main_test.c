@@ -118,11 +118,9 @@ static MunitResult string_test(const MunitParameter params[], void *data) {
 }
 
 static MunitTest string_tests[] = {
-    {"/str_copied", string_test, NULL, NULL, MUNIT_TEST_OPTION_NONE,
-     NULL},
+    {"/str_copied", string_test, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
     {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
 };
-
 
 static const MunitSuite string_suite = {
     "string_object", string_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE,
