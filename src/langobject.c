@@ -3,6 +3,35 @@
 #include <stdlib.h>
 #include <string.h>
 
+bool lang_array_set(lang_object_t *array, size_t index, lang_object_t *value) {
+  if (array == NULL || value == NULL) {
+    return false;
+  }
+  if (array->kind != ARRAY) {
+    return false;
+  }
+  if (array->data.v_array.size <= index) {
+    return false;
+  }
+  
+  array->data.v_array.elements[index] = value;
+  return true;
+}
+
+lang_object_t *lang_array_get(lang_object_t *array, size_t index) {
+  if (array == NULL) {
+    return NULL;
+  }
+  if (array->kind != ARRAY) {
+    return NULL;
+  }
+  if (array->data.v_array.size <= index) {
+    return NULL;
+  }
+  
+  return array->data.v_array.elements[index];
+}
+
 lang_object_t *new_lang_array(size_t size) {
   lang_object_t *obj = (lang_object_t *)malloc(sizeof(lang_object_t));
   if (obj == NULL) {
