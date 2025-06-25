@@ -4,7 +4,20 @@
 #include <string.h>
 
 lang_object_t *new_lang_pair(lang_object_t *first, lang_object_t *second) {
-  return NULL;
+  if (first == NULL || second == NULL) {
+    return NULL;
+  }
+
+  lang_object_t *obj = (lang_object_t *)malloc(sizeof(lang_object_t));
+  if (obj == NULL) {
+    return NULL;
+  }
+  
+  obj->kind = PAIR;
+  obj->data.v_pair.first = first;
+  obj->data.v_pair.second = second;
+
+  return obj;
 }
 
 lang_object_t *new_lang_string(char *value) {
