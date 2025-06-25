@@ -59,7 +59,7 @@ static MunitResult float_test_positive(const MunitParameter params[],
                                        void *data) {
   lang_object_t *obj = new_lang_float(42);
   munit_assert_int(obj->kind, ==, FLOAT);
-  munit_assert_float(obj->data.v_int, ==, 42);
+  munit_assert_float(obj->data.v_float, ==, 42);
 
   free(obj);
 
@@ -69,7 +69,7 @@ static MunitResult float_test_positive(const MunitParameter params[],
 static MunitResult float_test_zero(const MunitParameter params[], void *data) {
   lang_object_t *obj = new_lang_float(0.0);
   munit_assert_int(obj->kind, ==, FLOAT);
-  munit_assert_float(obj->data.v_int, ==, 0.0);
+  munit_assert_float(obj->data.v_float, ==, 0.0);
 
   free(obj);
 
@@ -80,7 +80,7 @@ static MunitResult float_test_negative(const MunitParameter params[],
                                        void *data) {
   lang_object_t *obj = new_lang_float(-5.0);
   munit_assert_int(obj->kind, ==, FLOAT);
-  munit_assert_float(obj->data.v_int, ==, -5.0);
+  munit_assert_float(obj->data.v_float, ==, -5.0);
 
   free(obj);
 
