@@ -2,6 +2,10 @@
 
 #include <stdlib.h>
 
+lang_object_t *new_lang_string(char *value) {
+  return NULL;
+}
+
 lang_object_t *new_lang_float(float value) {
   lang_object_t *obj = (lang_object_t *)malloc(sizeof(lang_object_t));
   if (obj == NULL) {

@@ -101,12 +101,40 @@ static const MunitSuite float_suite = {
 };
 
 /*
+  STRING OBJECT TESTS
+*/
+static MunitResult string_test(const MunitParameter params[], void *data) {
+  char *input = "Hello, World!";
+  lang_object_t *obj = new_lang_string(input);
+
+  munit_assert_int(obj->kind, ==, STRING);
+  munit_assert_ptr_not_equal(obj->data.v_string, input);
+  munit_assert_string_equal(obj->data.v_string, input);
+
+  free(obj->data.v_string);
+  free(obj);
+
+  return MUNIT_OK;
+}
+
+static MunitTest string_tests[] = {
+    {"/str_copied", string_test, NULL, NULL, MUNIT_TEST_OPTION_NONE,
+     NULL},
+    {NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+};
+
+
+static const MunitSuite string_suite = {
+    "string_object", string_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE,
+};
+
+/*
   CREATING TEST SUITE
 */
 static const MunitSuite test_suite = {
     "",
     NULL,
-    (MunitSuite[]){integer_suite, float_suite, {NULL}},
+    (MunitSuite[]){integer_suite, float_suite, string_suite, {NULL}},
     1,
     MUNIT_SUITE_OPTION_NONE,
 };
